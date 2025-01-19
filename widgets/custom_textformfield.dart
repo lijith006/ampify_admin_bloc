@@ -34,6 +34,8 @@ class CustomTextFormField extends StatelessWidget {
   final String labelText;
   final bool obscureText;
   final Widget? suffixIcon;
+  final int maxLines;
+
   final String? Function(String?)? validator;
 
   const CustomTextFormField({
@@ -43,6 +45,7 @@ class CustomTextFormField extends StatelessWidget {
     this.obscureText = false,
     this.validator,
     this.suffixIcon,
+    this.maxLines = 1,
   });
 
   @override
@@ -50,6 +53,7 @@ class CustomTextFormField extends StatelessWidget {
     return TextFormField(
       controller: controller,
       obscureText: obscureText,
+      maxLines: maxLines,
       decoration: InputDecoration(
           labelText: labelText,
           border: OutlineInputBorder(

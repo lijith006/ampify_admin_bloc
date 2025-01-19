@@ -95,7 +95,7 @@ class AdminAuthService {
     required String phoneNumber,
   }) async {
     try {
-      // Create admin user with email/password
+      // Create admin user with email-password
       final UserCredential credential =
           await _auth.createUserWithEmailAndPassword(
         email: email,
@@ -108,6 +108,7 @@ class AdminAuthService {
         'name': name,
         'email': email,
         'phoneNumber': phoneNumber,
+        'uid': userId,
       }, SetOptions(merge: true)); // Merge to avoid overwriting data
 
       // Log successful sign up
@@ -124,13 +125,13 @@ class AdminAuthService {
     }
   }
 
-  // Log-In for Admin
+  // LOG-IN ADMIN
   Future<AuthResponse> logInAdmin({
     required String email,
     required String password,
   }) async {
     try {
-      // Admin login with email/password
+      //ADMIN LOGIN WITH EMAIL-PASSWORD
       final UserCredential credential = await _auth.signInWithEmailAndPassword(
         email: email,
         password: password,
@@ -146,6 +147,15 @@ class AdminAuthService {
       log('Unexpected error during login: $e');
       return AuthResponse(
           success: false, errorMessage: 'An unexpected error occurred');
+    }
+  }
+  //FORGOT PASSWORD
+
+  Future<void> sendPasswordResetLink(String email) async {
+    try {
+      await _auth.sendPasswordResetEmail(email: email);
+    } catch (e) {
+      print(e.toString());
     }
   }
 
@@ -170,10 +180,9 @@ class AdminAuthService {
   }
 }
 
-// AuthResponse class
 class AuthResponse {
-  final bool success; // Indicates whether the operation was successful
-  final String? errorMessage; // Holds error message (if any)
+  final bool success;
+  final String? errorMessage;
 
   AuthResponse({required this.success, this.errorMessage});
 }
