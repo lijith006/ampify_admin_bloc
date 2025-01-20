@@ -140,7 +140,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => const AdminDashboard(),
+                            builder: (context) => AdminDashboard(),
                           ),
                         );
                         // Navigator.pop(context);

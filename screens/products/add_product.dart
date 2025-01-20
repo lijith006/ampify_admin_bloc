@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:ampify_admin_bloc/models/products_model.dart';
 import 'package:ampify_admin_bloc/screens/products/add_brand.dart';
 import 'package:ampify_admin_bloc/screens/products/add_category.dart';
 import 'package:ampify_admin_bloc/screens/products/product_list.dart';
@@ -9,6 +10,7 @@ import 'package:ampify_admin_bloc/widgets/custom_text_styles.dart';
 import 'package:ampify_admin_bloc/widgets/custom_textformfield.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:image_picker/image_picker.dart';
 
 class AddProduct extends StatefulWidget {
@@ -56,6 +58,21 @@ class _AddProductState extends State<AddProduct> {
     }
   }
 
+// Function to compress and convert image to Base64
+  Future<String> compressAndConvertToBase64(File image) async {
+    // Compress the image
+    final compressedImage = await FlutterImageCompress.compressWithFile(
+      image.absolute.path,
+      minWidth: 500,
+      minHeight: 500,
+      quality: 80,
+    );
+
+    // Convert the compressed image to Base64
+    final base64Image = base64Encode(compressedImage!);
+    return base64Image;
+  }
+
   // Function to add product to Firestore
   Future<void> _addProduct() async {
     if (selectedCategoryId == null ||
@@ -71,23 +88,40 @@ class _AddProductState extends State<AddProduct> {
       return;
     }
 
-    // Encode image files to base64 strings (not ideal for large images)
-    final List<String> imageUrls = _pickedImages.map((file) {
-      final bytes = File(file!.path).readAsBytesSync();
-      return "data:image/png;base64,${base64Encode(bytes)}";
-    }).toList();
-
     try {
+      //ID
+      // final String productId = _firestore.collection('products').doc().id;
+      // // Convert images to Base64 strings
+      // final List<String> base64Images = [];
+      // for (var image in selectedImages) {
+      //   final bytes = await image.readAsBytes();
+      //   final base64Image = base64Encode(bytes);
+      //   base64Images.add(base64Image);
+      // }
+      final String productId = _firestore.collection('products').doc().id;
+      // Convert images to Base64 strings
+      final List<String> base64Images = [];
+      for (var image in selectedImages) {
+        String base64Image = await compressAndConvertToBase64(image);
+        base64Images.add(base64Image);
+      }
+
+      // Create product instance
+      final product = Product(
+        id: productId,
+        name: itemNameController.text.trim(),
+        price: double.parse(priceController.text.trim()),
+        description: descriptionController.text.trim(),
+        categoryId: selectedCategoryId!,
+        brandId: selectedBrandId!,
+        image: base64Images.join(','),
+        createdAt: null,
+      );
       // Add product to Firestore
-      await _firestore.collection('products').add({
-        'name': itemNameController.text.trim(),
-        'categoryId': selectedCategoryId,
-        'description': descriptionController.text.trim(),
-        'price': double.parse(priceController.text.trim()),
-        'brandId': selectedBrandId,
-        'imageUrls': imageUrls,
-        'createdAt': FieldValue.serverTimestamp(),
-      });
+      await _firestore
+          .collection('products')
+          .doc(productId)
+          .set(product.toMap());
 
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Product added successfully!')),
@@ -102,7 +136,7 @@ class _AddProductState extends State<AddProduct> {
 
         selectedCategoryId = null;
         selectedBrandId = null;
-        selectedImages = [];
+        selectedImages.clear();
       });
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -157,13 +191,13 @@ class _AddProductState extends State<AddProduct> {
                     physics: const NeverScrollableScrollPhysics(),
                     gridDelegate:
                         const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 4, // Max 4 items per row
-                      crossAxisSpacing: 8, // Horizontal spacing
-                      mainAxisSpacing: 8, // Vertical spacing
+                      crossAxisCount: 4,
+                      crossAxisSpacing: 8,
+                      mainAxisSpacing: 8,
                     ),
                     itemCount: selectedImages.length < 4
                         ? selectedImages.length + 1
-                        : 4, // Include Add button if images < 4
+                        : 4, // will show add button if images less than 4
                     itemBuilder: (context, index) {
                       if (index == selectedImages.length &&
                           selectedImages.length < 4) {

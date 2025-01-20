@@ -4,6 +4,7 @@ import 'package:ampify_admin_bloc/authentication/screens/signup_screen.dart';
 import 'package:ampify_admin_bloc/screens/admin_dashboard.dart';
 import 'package:ampify_admin_bloc/widgets/custom_button.dart';
 import 'package:ampify_admin_bloc/widgets/custom_textformfield.dart';
+import 'package:ampify_admin_bloc/widgets/validators_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -37,29 +38,23 @@ class LoginScreen extends StatelessWidget {
                   CustomTextFormField(
                     controller: _emailController,
                     labelText: 'Username',
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter your email';
-                      } else if (!RegExp(r'^[^@]+@[^@]+\.[^@]+')
-                          .hasMatch(value)) {
-                        return 'Please enter a valid email';
-                      }
-                      return null;
-                    },
+                    validator: Validators.validateUsername,
                   ),
                   const SizedBox(height: 20),
                   CustomTextFormField(
                     controller: _passwordController,
                     labelText: 'Password',
                     obscureText: true,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter your password';
-                      } else if (value.length < 6) {
-                        return 'Password must be at least 6 characters';
-                      }
-                      return null;
-                    },
+                    validator: Validators.validatePassword,
+
+                    // validator: (value) {
+                    //   if (value == null || value.isEmpty) {
+                    //     return 'Please enter your password';
+                    //   } else if (value.length < 6) {
+                    //     return 'Password must be at least 6 characters';
+                    //   }
+                    //   return null;
+                    // },
                   ),
                   Align(
                     alignment: Alignment.centerRight,
@@ -85,7 +80,7 @@ class LoginScreen extends StatelessWidget {
                         Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => const AdminDashboard(),
+                            builder: (context) => AdminDashboard(),
                           ),
                         );
                       }

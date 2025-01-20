@@ -1,6 +1,6 @@
 import 'package:ampify_admin_bloc/authentication/admin_auth_service/auth_service.dart';
 import 'package:ampify_admin_bloc/authentication/bloc/auth_bloc.dart';
-import 'package:ampify_admin_bloc/screens/products/add_product.dart';
+import 'package:ampify_admin_bloc/screens/splash_screen.dart';
 // import 'package:ampify_admin_bloc/screens/splash_screen.dart';
 
 import 'package:firebase_core/firebase_core.dart';
@@ -28,10 +28,9 @@ class MyApp extends StatelessWidget {
         ),
       ],
       child: const MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Ampify',
-        home: AddProduct(),
-      ),
+          debugShowCheckedModeBanner: false,
+          title: 'Ampify',
+          home: SplashScreen()),
     );
   }
 }
