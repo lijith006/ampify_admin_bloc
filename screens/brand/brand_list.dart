@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:ampify_admin_bloc/models/brand_model.dart';
+import 'package:ampify_admin_bloc/screens/brand/brand_edit.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -52,43 +53,52 @@ class _BrandListState extends State<BrandList> {
                 itemCount: brands.length,
                 itemBuilder: (context, index) {
                   final brand = brands[index];
-                  return Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    elevation: 5,
-                    child: Column(
-                      children: [
-                        Expanded(
-                          flex: 3,
-                          child: ClipRRect(
-                            borderRadius: const BorderRadius.only(
-                              topLeft: Radius.circular(10),
-                              topRight: Radius.circular(10),
-                            ),
-                            child: Image.memory(
-                              base64Decode(brand.image),
-                              fit: BoxFit.cover,
-                              width: double.infinity,
-                            ),
+                  return GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => EditBrandPage(brand: brand),
                           ),
+                        );
+                      },
+                      child: Card(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
                         ),
-                        Expanded(
-                          flex: 1,
-                          child: Center(
-                            child: Text(
-                              brand.name,
-                              style: const TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
+                        elevation: 5,
+                        child: Column(
+                          children: [
+                            Expanded(
+                              flex: 3,
+                              child: ClipRRect(
+                                borderRadius: const BorderRadius.only(
+                                  topLeft: Radius.circular(10),
+                                  topRight: Radius.circular(10),
+                                ),
+                                child: Image.memory(
+                                  base64Decode(brand.image),
+                                  fit: BoxFit.cover,
+                                  width: double.infinity,
+                                ),
                               ),
-                              textAlign: TextAlign.center,
                             ),
-                          ),
+                            Expanded(
+                              flex: 1,
+                              child: Center(
+                                child: Text(
+                                  brand.name,
+                                  style: const TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
-                  );
+                      ));
                 },
               );
             },

@@ -24,4 +24,9 @@ class CustomTextStyles {
       fontWeight: FontWeight.bold,
     );
   }
+
+  static TextStyle screenHeading() {
+    return TextStyle(
+        fontSize: 28, fontWeight: FontWeight.w400, color: Colors.grey.shade700);
+  }
 }

@@ -1,51 +1,48 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-
 class Product {
-  final String id; // Added id
+  final String id;
   final String name;
   final double price;
   final String description;
-  final String categoryId; // Updated to store category id
-  final String brandId; // Updated to store brand id
-  final String image;
-  final Timestamp? createdAt;
+  final String categoryId;
+  final String brandId;
+  final List<String> images;
+  final DateTime? createdAt;
 
   Product({
-    this.createdAt,
-    required this.id, // Added id to constructor
+    required this.id,
     required this.name,
     required this.price,
     required this.description,
-    required this.categoryId, // categoryId instead of category name
-    required this.brandId, // brandId instead of brand name
-    required this.image,
+    required this.categoryId,
+    required this.brandId,
+    required this.images,
+    this.createdAt,
   });
 
-  // Convert a Product object into a map for Firestore
   Map<String, dynamic> toMap() {
     return {
-      'id': id, // Include id in the map
+      'id': id,
       'name': name,
       'price': price,
       'description': description,
-      'categoryId': categoryId, // Use categoryId
-      'brandId': brandId, // Use brandId
-      'image': image,
-      'createdAt': createdAt ?? FieldValue.serverTimestamp(),
+      'categoryId': categoryId,
+      'brandId': brandId,
+      'images': images,
+      'createdAt': createdAt?.toIso8601String(),
     };
   }
 
-  // Create a Product object from a Firestore document snapshot
   factory Product.fromMap(Map<String, dynamic> map) {
     return Product(
-      id: map['id'], // Assign id from map
+      id: map['id'],
       name: map['name'],
       price: map['price'],
       description: map['description'],
-      categoryId: map['categoryId'], // categoryId from map
-      brandId: map['brandId'], // brandId from map
-      image: map['image'],
-      createdAt: map['createdAt'],
+      categoryId: map['categoryId'],
+      brandId: map['brandId'],
+      images: List<String>.from(map['images']),
+      createdAt:
+          map['createdAt'] != null ? DateTime.parse(map['createdAt']) : null,
     );
   }
 }

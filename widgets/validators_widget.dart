@@ -33,4 +33,14 @@ class Validators {
     }
     return null;
   }
+
+  static String? validatePhone(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Please enter your phone number';
+    }
+    if (!RegExp(r'^\d{10}$').hasMatch(value)) {
+      return 'Phone number must be exactly 10 digits';
+    }
+    return null;
+  }
 }

@@ -20,12 +20,8 @@ class AuthError extends AuthState {
   AuthError({required this.message});
 }
 
-class AuthPasswordVisibility extends AuthState {
+class AuthPasswordVisibilityChanged extends AuthState {
   final bool isPasswordVisible;
-  final bool isConfirmPasswordVisible;
 
-  AuthPasswordVisibility({
-    required this.isPasswordVisible,
-    required this.isConfirmPasswordVisible,
-  });
+  AuthPasswordVisibilityChanged(this.isPasswordVisible);
 }

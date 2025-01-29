@@ -9,7 +9,7 @@ class Brand {
     required this.image,
   });
 
-  // Convert a Brand object into a map for Firestore
+  // Convert to  map
   Map<String, dynamic> toMap() {
     return {
       'id': id,
@@ -18,7 +18,7 @@ class Brand {
     };
   }
 
-  // Create a Brand object from a Firestore document snapshot
+  // Create  Brand object from  Firestore doc---map to  obj---
   factory Brand.fromMap(Map<String, dynamic> map) {
     return Brand(
       id: map['id'],

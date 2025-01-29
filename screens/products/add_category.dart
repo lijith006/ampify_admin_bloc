@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:ampify_admin_bloc/common/app_colors.dart';
 import 'package:ampify_admin_bloc/models/category_model.dart';
 import 'package:ampify_admin_bloc/widgets/custom_button.dart';
 import 'package:ampify_admin_bloc/widgets/custom_textformfield.dart';
@@ -47,7 +48,6 @@ class _AddCategoryState extends State<AddCategory> {
     try {
       final base64Image = await _encodeImageToBase64(selectedImage!);
 
-      // Create Category object with  generated id .
       String categoryId =
           FirebaseFirestore.instance.collection('categories').doc().id;
 
@@ -83,18 +83,15 @@ class _AddCategoryState extends State<AddCategory> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.backgroundColor,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         shadowColor: Colors.transparent,
         title: const Text('Add categories'),
       ),
-      extendBodyBehindAppBar: true,
+      // extendBodyBehindAppBar: true,
       body: Container(
-        decoration: const BoxDecoration(
-            image: DecorationImage(
-                image: AssetImage('assets/images/background.jpg'),
-                fit: BoxFit.cover)),
         child: Padding(
           padding: const EdgeInsets.all(10),
           child: Center(
@@ -142,8 +139,8 @@ class _AddCategoryState extends State<AddCategory> {
                                     });
                                   },
                                   child: Container(
-                                    decoration: BoxDecoration(
-                                      color: Colors.red.withOpacity(0.8),
+                                    decoration: const BoxDecoration(
+                                      color: Colors.red,
                                       shape: BoxShape.circle,
                                     ),
                                     child: const Icon(

@@ -1,15 +1,15 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:ampify_admin_bloc/common/app_colors.dart';
 import 'package:ampify_admin_bloc/models/products_model.dart';
-import 'package:ampify_admin_bloc/screens/products/add_brand.dart';
-import 'package:ampify_admin_bloc/screens/products/add_category.dart';
-import 'package:ampify_admin_bloc/screens/products/product_list.dart';
+
 import 'package:ampify_admin_bloc/widgets/custom_button.dart';
-import 'package:ampify_admin_bloc/widgets/custom_text_styles.dart';
+import 'package:ampify_admin_bloc/common/custom_text_styles.dart';
 import 'package:ampify_admin_bloc/widgets/custom_textformfield.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -35,12 +35,12 @@ class _AddProductState extends State<AddProduct> {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final ImagePicker _imagePicker = ImagePicker();
 
-// Function to fetch categories from Firestore
+// Function to fetch categories
   Stream<QuerySnapshot> _fetchCategories() {
     return _firestore.collection('categories').snapshots();
   }
 
-  // Function to fetch brands from Firestore
+  // Function to fetch brands..
   Stream<QuerySnapshot> _fetchBrands() {
     return _firestore.collection('brands').snapshots();
   }
@@ -48,7 +48,7 @@ class _AddProductState extends State<AddProduct> {
   void _pickImage() async {
     final pickedFile =
         await _imagePicker.pickImage(source: ImageSource.gallery);
-    if (pickedFile != null && _pickedImages.length < 4) {
+    if (pickedFile != null && _pickedImages.length <= 3) {
       setState(() {
         _pickedImages.add(pickedFile);
 
@@ -60,7 +60,6 @@ class _AddProductState extends State<AddProduct> {
 
 // Function to compress and convert image to Base64
   Future<String> compressAndConvertToBase64(File image) async {
-    // Compress the image
     final compressedImage = await FlutterImageCompress.compressWithFile(
       image.absolute.path,
       minWidth: 500,
@@ -68,7 +67,7 @@ class _AddProductState extends State<AddProduct> {
       quality: 80,
     );
 
-    // Convert the compressed image to Base64
+    // Converting compressed image to Base64
     final base64Image = base64Encode(compressedImage!);
     return base64Image;
   }
@@ -114,8 +113,8 @@ class _AddProductState extends State<AddProduct> {
         description: descriptionController.text.trim(),
         categoryId: selectedCategoryId!,
         brandId: selectedBrandId!,
-        image: base64Images.join(','),
-        createdAt: null,
+        images: base64Images,
+        createdAt: DateTime.now(),
       );
       // Add product to Firestore
       await _firestore
@@ -138,6 +137,7 @@ class _AddProductState extends State<AddProduct> {
         selectedBrandId = null;
         selectedImages.clear();
       });
+      Navigator.pop(context);
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Error adding product: $e')),
@@ -155,27 +155,20 @@ class _AddProductState extends State<AddProduct> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.backgroundColor,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         shadowColor: Colors.transparent,
       ),
-      extendBodyBehindAppBar: true,
       body: SingleChildScrollView(
         child: Container(
-          decoration: const BoxDecoration(
-              image: DecorationImage(
-                  image: AssetImage('assets/images/background.jpg'),
-                  fit: BoxFit.cover)),
           child: Padding(
-            padding: const EdgeInsets.all(20),
+            padding: const EdgeInsets.all(10),
             child: Form(
               key: formKey,
               child: Column(
                 children: [
-                  const SizedBox(
-                    height: 60,
-                  ),
                   //Product Image
                   Text(
                     'Add products',
@@ -234,8 +227,8 @@ class _AddProductState extends State<AddProduct> {
                             child: GestureDetector(
                               onTap: () => removeImage(index),
                               child: Container(
-                                decoration: BoxDecoration(
-                                  color: Colors.red.withOpacity(0.8),
+                                decoration: const BoxDecoration(
+                                  color: Colors.red,
                                   shape: BoxShape.circle,
                                 ),
                                 child: const Icon(
@@ -286,6 +279,8 @@ class _AddProductState extends State<AddProduct> {
                   CustomTextFormField(
                     controller: priceController,
                     labelText: 'Product price',
+                    keyboardType: TextInputType.number,
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return "Please enter a product price.";
@@ -293,91 +288,92 @@ class _AddProductState extends State<AddProduct> {
                       if (double.tryParse(value) == null) {
                         return "Please enter a valid price.";
                       }
+
                       return null;
                     },
                   ),
                   const SizedBox(height: 16),
                   //DROP doWn
                   // Category Dropdown
-                  StreamBuilder<QuerySnapshot>(
-                    stream: _fetchCategories(),
-                    builder: (context, snapshot) {
-                      if (!snapshot.hasData) {
-                        return const CircularProgressIndicator();
-                      }
-                      return DropdownButtonFormField<String>(
-                        value: selectedCategoryId,
-                        items: snapshot.data!.docs.map((doc) {
-                          return DropdownMenuItem(
-                            value: doc.id,
-                            child: Text(doc['name']),
-                          );
-                        }).toList(),
-                        onChanged: (value) {
-                          setState(() {
-                            selectedCategoryId = value!;
-                          });
-                        },
-                        decoration:
-                            const InputDecoration(labelText: 'Select Category'),
-                      );
-                    },
-                  ),
-                  const SizedBox(height: 16),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: StreamBuilder<QuerySnapshot>(
+                          stream: _fetchCategories(),
+                          builder: (context, snapshot) {
+                            if (!snapshot.hasData) {
+                              return const CircularProgressIndicator();
+                            }
+                            return DropdownButtonFormField<String>(
+                              value: selectedCategoryId,
+                              items: snapshot.data!.docs.map((doc) {
+                                return DropdownMenuItem(
+                                  value: doc.id,
+                                  child: Text(doc['name']),
+                                );
+                              }).toList(),
+                              onChanged: (value) {
+                                setState(() {
+                                  selectedCategoryId = value!;
+                                });
+                              },
+                              decoration: InputDecoration(
+                                labelText: 'Select Category',
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                  borderSide: const BorderSide(
+                                      color: AppColors.outLineColor),
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      ),
 
-                  // Brand Dropdown
-                  StreamBuilder<QuerySnapshot>(
-                    stream: _fetchBrands(),
-                    builder: (context, snapshot) {
-                      if (!snapshot.hasData) {
-                        return const CircularProgressIndicator();
-                      }
-                      return DropdownButtonFormField<String>(
-                        value: selectedBrandId,
-                        items: snapshot.data!.docs.map((doc) {
-                          return DropdownMenuItem(
-                            value: doc.id,
-                            child: Text(doc['name']),
-                          );
-                        }).toList(),
-                        onChanged: (value) {
-                          setState(() {
-                            selectedBrandId = value!;
-                          });
-                        },
-                        decoration:
-                            const InputDecoration(labelText: 'Select Brand'),
-                      );
-                    },
+                      const SizedBox(width: 5),
+
+                      // Brand Dropdown
+                      Expanded(
+                        child: StreamBuilder<QuerySnapshot>(
+                          stream: _fetchBrands(),
+                          builder: (context, snapshot) {
+                            if (!snapshot.hasData) {
+                              return const CircularProgressIndicator();
+                            }
+                            return DropdownButtonFormField<String>(
+                              value: selectedBrandId,
+                              items: snapshot.data!.docs.map((doc) {
+                                return DropdownMenuItem(
+                                  value: doc.id,
+                                  child: Text(doc['name']),
+                                );
+                              }).toList(),
+                              onChanged: (value) {
+                                setState(() {
+                                  selectedBrandId = value!;
+                                });
+                              },
+                              decoration: InputDecoration(
+                                labelText: 'Select Brand',
+                                border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(12)),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                  borderSide: const BorderSide(
+                                      color: AppColors.outLineColor),
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                    ],
                   ),
-                  const SizedBox(height: 16),
 
                   const SizedBox(height: 24),
-
-                  CustomButton(
-                      label: 'Add Category',
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => AddCategory(),
-                            ));
-                      }),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  CustomButton(
-                      label: 'Add Brand',
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => AddBrand(),
-                            ));
-                      }),
-                  const SizedBox(
-                    height: 20,
-                  ),
 
                   //SUBMIT
                   CustomButton(
@@ -388,15 +384,6 @@ class _AddProductState extends State<AddProduct> {
                   const SizedBox(
                     height: 10,
                   ),
-                  CustomButton(
-                      label: 'Product List',
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const ProductListPage(),
-                            ));
-                      })
                 ],
               ),
             ),
