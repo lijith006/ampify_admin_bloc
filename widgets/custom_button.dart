@@ -207,8 +207,8 @@ class CustomButton extends StatefulWidget {
     this.isLoading = false,
     this.borderColor,
     this.blurStrength = 10.0,
-    this.width, // Custom width
-    this.height = 60.0, // Default height
+    this.width,
+    this.height = 60.0,
   });
 
   @override

@@ -43,4 +43,20 @@ class Validators {
     }
     return null;
   }
+
+  //********************************************************** */
+  // General validation method for any field
+  static String? validateField(String? value,
+      {String? emptyErrorMessage,
+      String? invalidErrorMessage,
+      Function? customValidator}) {
+    if (value == null || value.isEmpty) {
+      return emptyErrorMessage ?? 'This field cannot be empty.';
+    }
+
+    if (customValidator != null && !customValidator(value)) {
+      return invalidErrorMessage ?? 'Invalid value entered.';
+    }
+    return null;
+  }
 }

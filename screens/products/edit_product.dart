@@ -503,10 +503,7 @@ class _EditProductPageState extends State<EditProductPage> {
       body: SingleChildScrollView(
         child: Container(
           // height: MediaQuery.of(context).size.height,
-          decoration: const BoxDecoration(
-              image: DecorationImage(
-                  image: AssetImage('assets/images/background.jpg'),
-                  fit: BoxFit.cover)),
+
           child: Padding(
             padding: const EdgeInsets.all(20),
             child: Form(

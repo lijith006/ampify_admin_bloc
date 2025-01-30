@@ -7,6 +7,7 @@ import 'package:ampify_admin_bloc/models/products_model.dart';
 import 'package:ampify_admin_bloc/widgets/custom_button.dart';
 import 'package:ampify_admin_bloc/common/custom_text_styles.dart';
 import 'package:ampify_admin_bloc/widgets/custom_textformfield.dart';
+import 'package:ampify_admin_bloc/widgets/validators_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -82,6 +83,7 @@ class _AddProductState extends State<AddProduct> {
         _pickedImages.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
+            backgroundColor: Colors.red,
             content: Text('Please fill all fields and select images.')),
       );
       return;
@@ -123,7 +125,9 @@ class _AddProductState extends State<AddProduct> {
           .set(product.toMap());
 
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Product added successfully!')),
+        const SnackBar(
+            backgroundColor: Colors.green,
+            content: Text('Product added successfully!')),
       );
 
       // Reset form
@@ -140,7 +144,9 @@ class _AddProductState extends State<AddProduct> {
       Navigator.pop(context);
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error adding product: $e')),
+        SnackBar(
+            backgroundColor: Colors.red,
+            content: Text('Error adding product: $e')),
       );
     }
   }
@@ -252,10 +258,8 @@ class _AddProductState extends State<AddProduct> {
                     controller: itemNameController,
                     labelText: 'Product name',
                     validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return "Please enter a product name.";
-                      }
-                      return null;
+                      return Validators.validateField(value,
+                          emptyErrorMessage: 'Please enter a product name');
                     },
                   ),
                   const SizedBox(height: 16),
@@ -266,12 +270,6 @@ class _AddProductState extends State<AddProduct> {
                     maxLines: 4,
                     controller: descriptionController,
                     labelText: 'Product description',
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return "Please enter a product description.";
-                      }
-                      return null;
-                    },
                   ),
                   const SizedBox(height: 16),
 
@@ -281,16 +279,6 @@ class _AddProductState extends State<AddProduct> {
                     labelText: 'Product price',
                     keyboardType: TextInputType.number,
                     inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return "Please enter a product price.";
-                      }
-                      if (double.tryParse(value) == null) {
-                        return "Please enter a valid price.";
-                      }
-
-                      return null;
-                    },
                   ),
                   const SizedBox(height: 16),
                   //DROP doWn
