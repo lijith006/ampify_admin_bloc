@@ -114,6 +114,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
   String productDescription = "";
   double productPrice = 0.0;
   bool isLoading = true;
+
   @override
   void initState() {
     super.initState();
