@@ -217,7 +217,16 @@ class _AddBrandState extends State<AddBrand> {
         bytes); // Convert image bytes to Base64 string----------
   }
 
-// Function to add category
+//check does brand exists
+  Future<bool> doesBrandExist(String brandName) async {
+    final existingBrands = await FirebaseFirestore.instance
+        .collection('brands')
+        .where('name', isEqualTo: brandName.trim())
+        .get();
+    return existingBrands.docs.isNotEmpty;
+  }
+
+// Function to add brand
   Future<void> addBrand() async {
     if (brandNameController.text.isEmpty || selectedImage == null) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -228,6 +237,18 @@ class _AddBrandState extends State<AddBrand> {
     }
 
     try {
+      //check if the brand exists
+      final brandName = brandNameController.text.trim();
+      final brandExists = await doesBrandExist(brandName);
+      if (brandExists) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+              backgroundColor: Colors.red,
+              content: Text('Brand already exists!')),
+        );
+        return;
+      }
+      //Encode image to base64
       final base64Image = await _encodeImageToBase64(selectedImage!);
 
       // Create Category object with a generated id
@@ -266,6 +287,7 @@ class _AddBrandState extends State<AddBrand> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.backgroundColor,
+
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,

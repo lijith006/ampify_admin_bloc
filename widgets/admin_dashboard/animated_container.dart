@@ -20,7 +20,10 @@ class FeatureCard extends StatelessWidget {
         duration: const Duration(milliseconds: 300),
         curve: Curves.easeInOut,
         decoration: BoxDecoration(
-          color: const Color(0xFF31473A),
+          // color: Color.fromARGB(255, 71, 77, 82),
+          color: Color(0XFF202224),
+
+          // color: const Color(0xFF31473A),
           borderRadius: BorderRadius.circular(12),
           boxShadow: const [
             BoxShadow(

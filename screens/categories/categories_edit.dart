@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:ampify_admin_bloc/common/app_colors.dart';
 import 'package:ampify_admin_bloc/models/category_model.dart';
 import 'package:ampify_admin_bloc/widgets/custom_button.dart';
 import 'package:ampify_admin_bloc/widgets/custom_textformfield.dart';
@@ -68,6 +69,19 @@ class _EditCategoryScreenState extends State<EditCategoryScreen> {
 
   Future<void> _deleteBrand() async {
     try {
+      //Check if there is any product under category
+      final productsSnapshot = await FirebaseFirestore.instance
+          .collection('products')
+          .where('categoryId', isEqualTo: widget.category.id)
+          .get();
+
+      if (productsSnapshot.docs.isNotEmpty) {
+        //show warning if not empty
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            backgroundColor: Colors.red,
+            content: Text(
+                'Cannot delete category:Product still exist under this category')));
+      }
       await FirebaseFirestore.instance
           .collection('categories')
           .doc(widget.category.id)
@@ -86,6 +100,7 @@ class _EditCategoryScreenState extends State<EditCategoryScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.backgroundColor,
       appBar: AppBar(
         title: const Text('Edit Category'),
       ),

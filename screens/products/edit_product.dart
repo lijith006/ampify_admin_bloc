@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:ampify_admin_bloc/common/app_colors.dart';
 import 'package:ampify_admin_bloc/widgets/custom_button.dart';
 import 'package:ampify_admin_bloc/common/custom_text_styles.dart';
 import 'package:ampify_admin_bloc/widgets/custom_textformfield.dart';
@@ -145,12 +146,12 @@ class _EditProductPageState extends State<EditProductPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.backgroundColor,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         shadowColor: Colors.transparent,
       ),
-      extendBodyBehindAppBar: true,
       body: SingleChildScrollView(
         child: Container(
           child: Padding(
@@ -159,9 +160,9 @@ class _EditProductPageState extends State<EditProductPage> {
               key: formKey,
               child: Column(
                 children: [
-                  const SizedBox(
-                    height: 60,
-                  ),
+                  // const SizedBox(
+                  //   height: 10,
+                  // ),
                   //Product Image
                   Text(
                     'Edit products',
@@ -340,7 +341,7 @@ class _EditProductPageState extends State<EditProductPage> {
 
                   //SUBMIT
                   CustomButton(
-                      label: 'Add Product',
+                      label: 'Update Product',
                       onTap: () {
                         _updateProduct();
                       }),

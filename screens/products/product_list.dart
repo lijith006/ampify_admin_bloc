@@ -249,14 +249,15 @@ class ProductListPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // backgroundColor: Color(0XFFe1d5c9),
       backgroundColor: AppColors.backgroundColor,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         shadowColor: Colors.transparent,
-        title: const Text('Products'),
+        title: const Text('Product Lists'),
       ),
-      extendBodyBehindAppBar: true,
+      // extendBodyBehindAppBar: true,
       body: Padding(
         padding: const EdgeInsets.all(10),
         child: StreamBuilder<QuerySnapshot>(
@@ -276,18 +277,22 @@ class ProductListPage extends StatelessWidget {
                 final product = products[index];
                 final productId = products[index].id;
                 return Card(
+                  // color: Color.fromARGB(255, 71, 77, 82),
                   child: ListTile(
                     leading: product['images'] != null &&
                             product['images'].isNotEmpty
-                        ? Image.memory(
-                            // Decode first Base64 image if available
-                            const Base64Decoder().convert(product['images'][0]),
-                            width: 50,
-                            height: 50,
-                            fit: BoxFit.cover,
+                        ? ClipRRect(
+                            borderRadius: BorderRadius.circular(10),
+                            child: Image.memory(
+                              // Decode first Base64 image if available
+                              const Base64Decoder()
+                                  .convert(product['images'][0]),
+                              width: 50,
+                              height: 50,
+                              fit: BoxFit.cover,
+                            ),
                           )
-                        : const Icon(
-                            Icons.image), // Placeholder icon if no image
+                        : const Icon(Icons.image), //  icon if no image
                     title: Text(product['name'] ?? "Unnamed Product"),
                     subtitle: Text("\₹${product['price'] ?? '0.00'}"),
                     onTap: () {
@@ -332,13 +337,6 @@ class ProductListPage extends StatelessWidget {
     );
   }
 
-//   Future<void> _deleteProduct(String productId) async {
-//     await FirebaseFirestore.instance
-//         .collection('products')
-//         .doc(productId)
-//         .delete();
-//     print('Product deleted!');
-//   }
   Future<void> _deleteProduct(BuildContext context, String productId) async {
     final confirmation = await showDialog<bool>(
       context: context,

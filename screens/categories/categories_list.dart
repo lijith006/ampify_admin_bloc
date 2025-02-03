@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:ampify_admin_bloc/common/app_colors.dart';
 import 'package:ampify_admin_bloc/models/category_model.dart';
 import 'package:ampify_admin_bloc/screens/categories/categories_edit.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -16,6 +17,7 @@ class _CategoriesListState extends State<CategoriesList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.backgroundColor,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -24,11 +26,6 @@ class _CategoriesListState extends State<CategoriesList> {
       ),
       extendBodyBehindAppBar: true,
       body: Container(
-        decoration: const BoxDecoration(
-            image: DecorationImage(
-          image: AssetImage('assets/images/background.jpg'),
-          fit: BoxFit.cover,
-        )),
         child: Padding(
           padding: const EdgeInsets.all(10),
           child: StreamBuilder<QuerySnapshot>(

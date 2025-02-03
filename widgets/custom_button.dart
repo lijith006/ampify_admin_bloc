@@ -237,7 +237,9 @@ class _CustomButtonState extends State<CustomButton> {
             MediaQuery.of(context).size.width * 0.9, // Adjustable width
         height: widget.height, // Adjustable height
         decoration: BoxDecoration(
-          color: const Color(0xFF31473A),
+          // color: const Color(0xFF31473A),
+          color: Color(0XFF202224),
+
           borderRadius: BorderRadius.circular(widget.borderRadius),
           border: widget.borderColor != null
               ? Border.all(color: widget.borderColor!, width: 1.5)

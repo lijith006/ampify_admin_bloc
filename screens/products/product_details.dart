@@ -198,7 +198,9 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                     arcType: ArcType.CONVEY,
                     child: Container(
                       width: double.infinity,
-                      color: const Color(0XFF808080),
+                      // color: const Color(0XFF526664),
+                      color: Color.fromARGB(255, 24, 63, 5),
+
                       child: Padding(
                         padding: const EdgeInsets.symmetric(
                           horizontal: 20,
@@ -234,8 +236,11 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                   ),
                   Container(
                     width: screenWidth * 10,
-                    height: screenHeight * 0.5,
-                    color: Colors.white,
+                    height: screenHeight * 0.32,
+                    // color: Color(0XFF365b5b),
+                    // color: Color(0XFF526664),
+                    color: Color(0XFF202224),
+
                     child: Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: Column(
@@ -245,7 +250,8 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                           // Product Description
                           Text(
                             productDescription,
-                            style: const TextStyle(fontSize: 15),
+                            style: const TextStyle(
+                                fontSize: 15, color: Colors.white),
                           ),
                           const SizedBox(height: 20),
                           //),

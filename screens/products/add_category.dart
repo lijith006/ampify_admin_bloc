@@ -35,6 +35,15 @@ class _AddCategoryState extends State<AddCategory> {
     return base64Encode(bytes); // Convert image bytes to Base64 string
   }
 
+  //check does category exists
+  Future<bool> doesCategoryExist(String categoryName) async {
+    final existingCategory = await FirebaseFirestore.instance
+        .collection('categories')
+        .where('name', isEqualTo: categoryName.trim())
+        .get();
+    return existingCategory.docs.isNotEmpty;
+  }
+
 //  add category
   Future<void> _addCategory() async {
     if (categoryNameController.text.isEmpty || selectedImage == null) {
@@ -46,8 +55,21 @@ class _AddCategoryState extends State<AddCategory> {
     }
 
     try {
-      final base64Image = await _encodeImageToBase64(selectedImage!);
+      //check if the category exists
+      final categoryName = categoryNameController.text.trim();
+      final categoryExists = await doesCategoryExist(categoryName);
+      if (categoryExists) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+              backgroundColor: Colors.red,
+              content: Text('Category already exists!')),
+        );
+        return;
+      }
 
+      // Encode the image to Base64
+      final base64Image = await _encodeImageToBase64(selectedImage!);
+// Create category with a generated id
       String categoryId =
           FirebaseFirestore.instance.collection('categories').doc().id;
 

@@ -47,17 +47,28 @@ class _AddProductState extends State<AddProduct> {
   }
 
   void _pickImage() async {
-    final pickedFile =
-        await _imagePicker.pickImage(source: ImageSource.gallery);
-    if (pickedFile != null && _pickedImages.length <= 3) {
+    final List<XFile>? pickedFiles = await _imagePicker.pickMultiImage();
+    if (pickedFiles != null) {
       setState(() {
-        _pickedImages.add(pickedFile);
-
-        // _pickedImages.add(pickedFile);
-        selectedImages.add(File(pickedFile.path));
+        _pickedImages.addAll(pickedFiles);
+        selectedImages
+            .addAll(pickedFiles.map((file) => File(file.path)).toList());
       });
     }
   }
+
+  // void _pickImage() async {
+  //   final pickedFile =
+  //       await _imagePicker.pickImage(source: ImageSource.gallery);
+  //   if (pickedFile != null && _pickedImages.length <= 3) {
+  //     setState(() {
+  //       _pickedImages.add(pickedFile);
+
+  //       // _pickedImages.add(pickedFile);
+  //       selectedImages.add(File(pickedFile.path));
+  //     });
+  //   }
+  // }
 
 // Function to compress and convert image to Base64
   Future<String> compressAndConvertToBase64(File image) async {
@@ -90,15 +101,6 @@ class _AddProductState extends State<AddProduct> {
     }
 
     try {
-      //ID
-      // final String productId = _firestore.collection('products').doc().id;
-      // // Convert images to Base64 strings
-      // final List<String> base64Images = [];
-      // for (var image in selectedImages) {
-      //   final bytes = await image.readAsBytes();
-      //   final base64Image = base64Encode(bytes);
-      //   base64Images.add(base64Image);
-      // }
       final String productId = _firestore.collection('products').doc().id;
       // Convert images to Base64 strings
       final List<String> base64Images = [];
@@ -154,6 +156,7 @@ class _AddProductState extends State<AddProduct> {
   //Remove image
   void removeImage(int index) {
     setState(() {
+      _pickedImages.removeAt(index);
       selectedImages.removeAt(index);
     });
   }
@@ -184,7 +187,7 @@ class _AddProductState extends State<AddProduct> {
                     height: 10,
                   ),
 
-                  // Image Picker Grid
+                  //image grid
                   GridView.builder(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
@@ -196,7 +199,8 @@ class _AddProductState extends State<AddProduct> {
                     ),
                     itemCount: selectedImages.length < 4
                         ? selectedImages.length + 1
-                        : 4, // will show add button if images less than 4
+                        : selectedImages
+                            .length, // will show add button if images less than 4
                     itemBuilder: (context, index) {
                       if (index == selectedImages.length &&
                           selectedImages.length < 4) {
@@ -205,8 +209,10 @@ class _AddProductState extends State<AddProduct> {
                           onTap: _pickImage,
                           child: Container(
                             decoration: BoxDecoration(
-                              color: Colors.grey[200],
-                              border: Border.all(color: Colors.grey),
+                              color: const Color(0XFFe1d5c9),
+                              border: Border.all(
+                                  color:
+                                      const Color.fromARGB(255, 138, 136, 136)),
                               borderRadius: BorderRadius.circular(8),
                             ),
                             child: const Icon(Icons.add_a_photo_outlined),
@@ -249,6 +255,74 @@ class _AddProductState extends State<AddProduct> {
                       );
                     },
                   ),
+
+                  // Image Picker Grid
+                  // GridView.builder(
+                  //   shrinkWrap: true,
+                  //   physics: const NeverScrollableScrollPhysics(),
+                  //   gridDelegate:
+                  //       const SliverGridDelegateWithFixedCrossAxisCount(
+                  //     crossAxisCount: 4,
+                  //     crossAxisSpacing: 8,
+                  //     mainAxisSpacing: 8,
+                  //   ),
+                  //   itemCount: selectedImages.length < 4
+                  //       ? selectedImages.length + 1
+                  //       : 4, // will show add button if images less than 4
+                  //   itemBuilder: (context, index) {
+                  //     if (index == selectedImages.length &&
+                  //         selectedImages.length < 4) {
+                  //       // Add Photo Button
+                  //       return GestureDetector(
+                  //         onTap: _pickImage,
+                  //         child: Container(
+                  //           decoration: BoxDecoration(
+                  //             color: Color(0XFFe1d5c9),
+                  //             border: Border.all(
+                  //                 color:
+                  //                     const Color.fromARGB(255, 138, 136, 136)),
+                  //             borderRadius: BorderRadius.circular(8),
+                  //           ),
+                  //           child: const Icon(Icons.add_a_photo_outlined),
+                  //         ),
+                  //       );
+                  //     }
+
+                  //     // Display Selected Images
+                  //     return Stack(
+                  //       children: [
+                  //         Container(
+                  //           decoration: BoxDecoration(
+                  //             border: Border.all(color: Colors.grey),
+                  //             borderRadius: BorderRadius.circular(8),
+                  //             image: DecorationImage(
+                  //               image: FileImage(selectedImages[index]),
+                  //               fit: BoxFit.cover,
+                  //             ),
+                  //           ),
+                  //         ),
+                  //         Positioned(
+                  //           top: 4,
+                  //           right: 4,
+                  //           child: GestureDetector(
+                  //             onTap: () => removeImage(index),
+                  //             child: Container(
+                  //               decoration: const BoxDecoration(
+                  //                 color: Colors.red,
+                  //                 shape: BoxShape.circle,
+                  //               ),
+                  //               child: const Icon(
+                  //                 Icons.close,
+                  //                 color: Colors.white,
+                  //                 size: 20,
+                  //               ),
+                  //             ),
+                  //           ),
+                  //         ),
+                  //       ],
+                  //     );
+                  //   },
+                  // ),
                   const SizedBox(
                     height: 16,
                   ),
@@ -308,10 +382,10 @@ class _AddProductState extends State<AddProduct> {
                               decoration: InputDecoration(
                                 labelText: 'Select Category',
                                 border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(12),
+                                  borderRadius: BorderRadius.circular(20),
                                 ),
                                 focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(12),
+                                  borderRadius: BorderRadius.circular(20),
                                   borderSide: const BorderSide(
                                       color: AppColors.outLineColor),
                                 ),
@@ -347,9 +421,9 @@ class _AddProductState extends State<AddProduct> {
                               decoration: InputDecoration(
                                 labelText: 'Select Brand',
                                 border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(12)),
+                                    borderRadius: BorderRadius.circular(20)),
                                 focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(12),
+                                  borderRadius: BorderRadius.circular(20),
                                   borderSide: const BorderSide(
                                       color: AppColors.outLineColor),
                                 ),

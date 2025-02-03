@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:ampify_admin_bloc/common/app_colors.dart';
 import 'package:ampify_admin_bloc/models/brand_model.dart';
 import 'package:ampify_admin_bloc/widgets/custom_button.dart';
 import 'package:ampify_admin_bloc/widgets/custom_textformfield.dart';
@@ -70,17 +71,36 @@ class _EditBrandPageState extends State<EditBrandPage> {
 //Delete
   Future<void> _deleteBrand() async {
     try {
+      //Check if there is any product under brand
+      final productsSnapshot = await FirebaseFirestore.instance
+          .collection('products')
+          .where('brandId', isEqualTo: widget.brand.id)
+          .get();
+
+      if (productsSnapshot.docs.isNotEmpty) {
+        //show warning if not empty
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            backgroundColor: Colors.red,
+            content: Text(
+                'Cannot delete brand:Product still exist under this brand')));
+        return;
+      }
+
       await FirebaseFirestore.instance
           .collection('brands')
           .doc(widget.brand.id)
           .delete();
       Navigator.pop(context);
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Brand deleted successfully!')),
+        const SnackBar(
+            backgroundColor: Colors.green,
+            content: Text('Brand deleted successfully!')),
       );
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error deleting brand: $e')),
+        SnackBar(
+            backgroundColor: Colors.red,
+            content: Text('Error deleting brand: $e')),
       );
     }
   }
@@ -88,6 +108,7 @@ class _EditBrandPageState extends State<EditBrandPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.backgroundColor,
       appBar: AppBar(
         title: const Text('Edit Brand'),
       ),

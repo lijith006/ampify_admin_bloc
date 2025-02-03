@@ -191,8 +191,10 @@ class CustomTextFormField extends StatelessWidget {
           contentPadding:
               const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
           filled: true,
-          // fillColor: Colors.transparent,
-          fillColor: Colors.grey[200],
+          // fillColor: Colors.grey[200],
+          // fillColor: Color(0XFFe1d5c9),
+          fillColor: Color.fromARGB(255, 233, 220, 208),
+
           // border: InputBorder.none,
 
           enabledBorder: OutlineInputBorder(
