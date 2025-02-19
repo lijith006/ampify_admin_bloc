@@ -57,19 +57,6 @@ class _AddProductState extends State<AddProduct> {
     }
   }
 
-  // void _pickImage() async {
-  //   final pickedFile =
-  //       await _imagePicker.pickImage(source: ImageSource.gallery);
-  //   if (pickedFile != null && _pickedImages.length <= 3) {
-  //     setState(() {
-  //       _pickedImages.add(pickedFile);
-
-  //       // _pickedImages.add(pickedFile);
-  //       selectedImages.add(File(pickedFile.path));
-  //     });
-  //   }
-  // }
-
 // Function to compress and convert image to Base64
   Future<String> compressAndConvertToBase64(File image) async {
     final compressedImage = await FlutterImageCompress.compressWithFile(

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:ampify_admin_bloc/authentication/screens/login_screen.dart';
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
@@ -24,12 +25,12 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       body: Center(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            SizedBox(
+            const SizedBox(
               height: 100,
               width: 80,
               child: SpinKitWave(
@@ -38,10 +39,24 @@ class _SplashScreenState extends State<SplashScreen> {
               ),
               //Image.asset('assets/images/ampify_logo.png')
             ),
-            Text(
-              'Ampify-Admin',
-              style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-            ),
+            Center(
+              child: AnimatedTextKit(
+                animatedTexts: [
+                  TyperAnimatedText(
+                    'Ampify - admin',
+                    textStyle: const TextStyle(
+                        fontSize: 25, fontWeight: FontWeight.bold),
+                    speed: const Duration(milliseconds: 100),
+                  ),
+                ],
+                totalRepeatCount: 1,
+                repeatForever: false,
+              ),
+            )
+            // Text(
+            //   'Ampify-Admin',
+            //   style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+            // ),
           ],
         ),
       ),

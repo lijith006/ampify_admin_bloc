@@ -51,6 +51,7 @@
 // }
 import 'package:ampify_admin_bloc/authentication/admin_auth_service/auth_service.dart';
 import 'package:ampify_admin_bloc/authentication/bloc/auth_bloc.dart';
+import 'package:ampify_admin_bloc/logic/banner/edit_banner/bloc/edit_banner_bloc.dart';
 import 'package:ampify_admin_bloc/screens/splash_screen.dart';
 // import 'package:ampify_admin_bloc/screens/splash_screen.dart';
 
@@ -76,6 +77,9 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider<AuthBloc>(
           create: (_) => AuthBloc(AdminAuthService()),
+        ),
+        BlocProvider<EditBannerBloc>(
+          create: (_) => EditBannerBloc(),
         ),
       ],
       child: const MaterialApp(

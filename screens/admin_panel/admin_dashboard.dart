@@ -6,6 +6,7 @@ import 'package:ampify_admin_bloc/screens/products/add%20banner.dart';
 import 'package:ampify_admin_bloc/screens/products/add_brand.dart';
 import 'package:ampify_admin_bloc/screens/products/add_category.dart';
 import 'package:ampify_admin_bloc/screens/products/add_product.dart';
+import 'package:ampify_admin_bloc/screens/products/edit_banner.dart';
 import 'package:ampify_admin_bloc/screens/products/product_list.dart';
 import 'package:ampify_admin_bloc/widgets/admin_dashboard/dashboard_grid.dart';
 import 'package:ampify_admin_bloc/common/custom_text_styles.dart';
@@ -157,6 +158,16 @@ class AdminDashboard extends StatelessWidget {
         'onTap': () {
           Navigator.push(context,
               MaterialPageRoute(builder: (context) => const AddBanner()));
+        }
+      },
+      {
+        'title': 'Edit Banner',
+        'icon': Icons.edit_document,
+        'onTap': () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => const EditBannerScreen()));
         }
       },
     ];
