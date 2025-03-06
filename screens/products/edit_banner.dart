@@ -234,9 +234,9 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:ampify_admin_bloc/logic/banner/edit_banner/bloc/edit_banner_bloc.dart';
-import 'package:ampify_admin_bloc/logic/banner/edit_banner/bloc/edit_banner_event.dart';
-import 'package:ampify_admin_bloc/logic/banner/edit_banner/bloc/edit_banner_state.dart';
+import 'package:ampify_admin_bloc/logic/banner/edit_banner/edit_banner_bloc.dart';
+import 'package:ampify_admin_bloc/logic/banner/edit_banner/edit_banner_event.dart';
+import 'package:ampify_admin_bloc/logic/banner/edit_banner/edit_banner_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';

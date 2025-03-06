@@ -51,9 +51,9 @@
 // }
 import 'package:ampify_admin_bloc/authentication/admin_auth_service/auth_service.dart';
 import 'package:ampify_admin_bloc/authentication/bloc/auth_bloc.dart';
-import 'package:ampify_admin_bloc/logic/banner/edit_banner/bloc/edit_banner_bloc.dart';
+import 'package:ampify_admin_bloc/logic/banner/edit_banner/edit_banner_bloc.dart';
+import 'package:ampify_admin_bloc/screens/order_details_screen/bloc/order_bloc.dart';
 import 'package:ampify_admin_bloc/screens/splash_screen.dart';
-// import 'package:ampify_admin_bloc/screens/splash_screen.dart';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -81,6 +81,7 @@ class MyApp extends StatelessWidget {
         BlocProvider<EditBannerBloc>(
           create: (_) => EditBannerBloc(),
         ),
+        BlocProvider<OrderBloc>(create: (context) => OrderBloc()),
       ],
       child: const MaterialApp(
           debugShowCheckedModeBanner: false,

@@ -4,6 +4,8 @@ class AppColors {
   // static const Color backgroundColor = Color(0xFFEDF4F2);
 
   static const Color backgroundColor = Color(0XFFe1d5c9);
+  static const Color orderColor = Color.fromARGB(255, 197, 42, 31);
+  static const Color orderStatus = Colors.blue;
 
   static const Color outLineColor = Color(0XFF202224);
 
