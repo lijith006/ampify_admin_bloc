@@ -1,3 +1,4 @@
+// //***************************************************** */
 // import 'package:ampify_admin_bloc/screens/order_details_screen/bloc/order_event.dart';
 // import 'package:ampify_admin_bloc/screens/order_details_screen/bloc/order_state.dart';
 // import 'package:ampify_admin_bloc/screens/order_details_screen/order_model/order_model.dart';
@@ -8,7 +9,9 @@
 //   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
 //   OrderBloc() : super(OrderInitial()) {
+//     // on<FetchOrders>(_onFetchOrders);
 //     on<FetchOrders>(_onFetchOrders);
+
 //     on<UpdateOrderStatus>(_onUpdateOrderStatus);
 //   }
 
@@ -18,33 +21,41 @@
 //     emit(OrderLoading());
 //     try {
 //       QuerySnapshot snapshot = await _firestore.collection('orders').get();
-//       List<OrderModel> orders = snapshot.docs
-//           .map((doc) => OrderModel.fromMap(doc.data() as Map<String, dynamic>))
-//           .toList();
+
+//       List<OrderModel> orders = snapshot.docs.map((doc) {
+//         // Pass both document ID and data to fromMap
+//         return OrderModel.fromMap(doc.id, doc.data() as Map<String, dynamic>);
+//       }).toList();
+
 //       emit(OrdersLoaded(orders: orders));
 //     } catch (e) {
 //       emit(OrderFailed(error: e.toString()));
 //     }
 //   }
 
-// //Update order status
 //   Future<void> _onUpdateOrderStatus(
 //       UpdateOrderStatus event, Emitter<OrderState> emit) async {
 //     try {
+//       // Normalize the status before updating
+//       String normalizedStatus = OrderModel.normalizeStatus(event.newStatus);
+
 //       await _firestore
 //           .collection('orders')
 //           .doc(event.orderId)
-//           .update({'status': event.newStatus});
-//       emit(OrderStatusUpdated(
-//           orderId: event.orderId, newStatus: event.newStatus));
+//           .update({'status': normalizedStatus});
 
-//       //Fetch updated orders to reflect changges
+//       emit(OrderStatusUpdated(
+//           orderId: event.orderId, newStatus: normalizedStatus));
+
+//       // Fetch updated orders to reflect changes
 //       add(FetchOrders());
 //     } catch (e) {
 //       emit(OrderFailed(error: e.toString()));
 //     }
 //   }
 // }
+//************************************************************ */
+
 //***************************************************** */
 import 'package:ampify_admin_bloc/screens/order_details_screen/bloc/order_event.dart';
 import 'package:ampify_admin_bloc/screens/order_details_screen/bloc/order_state.dart';
@@ -80,16 +91,38 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
     }
   }
 
+  // Future<void> _onUpdateOrderStatus(
+  //     UpdateOrderStatus event, Emitter<OrderState> emit) async {
+  //   try {
+  //     // Normalize the status before updating
+  //     String normalizedStatus = OrderModel.normalizeStatus(event.newStatus);
+
+  //     await _firestore
+  //         .collection('orders')
+  //         .doc(event.orderId)
+  //         .update({'status': normalizedStatus});
+
+  //     emit(OrderStatusUpdated(
+  //         orderId: event.orderId, newStatus: normalizedStatus));
+
+  //     // Fetch updated orders to reflect changes
+  //     add(FetchOrders());
+  //   } catch (e) {
+  //     emit(OrderFailed(error: e.toString()));
+  //   }
+  // }
+
   Future<void> _onUpdateOrderStatus(
       UpdateOrderStatus event, Emitter<OrderState> emit) async {
     try {
       // Normalize the status before updating
       String normalizedStatus = OrderModel.normalizeStatus(event.newStatus);
 
-      await _firestore
-          .collection('orders')
-          .doc(event.orderId)
-          .update({'status': normalizedStatus});
+      await _firestore.collection('orders').doc(event.orderId).update({
+        'status': normalizedStatus,
+        'updatedAt': FieldValue.serverTimestamp(),
+        'location': event.location ?? "Processing Center",
+      });
 
       emit(OrderStatusUpdated(
           orderId: event.orderId, newStatus: normalizedStatus));
