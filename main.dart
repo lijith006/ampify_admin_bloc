@@ -51,7 +51,7 @@
 // }
 import 'package:ampify_admin_bloc/authentication/admin_auth_service/auth_service.dart';
 import 'package:ampify_admin_bloc/authentication/bloc/auth_bloc.dart';
-import 'package:ampify_admin_bloc/logic/banner/edit_banner/edit_banner_bloc.dart';
+import 'package:ampify_admin_bloc/banner/edit_banner/edit_banner_bloc.dart';
 import 'package:ampify_admin_bloc/screens/order_details_screen/bloc/order_bloc.dart';
 import 'package:ampify_admin_bloc/screens/splash_screen.dart';
 

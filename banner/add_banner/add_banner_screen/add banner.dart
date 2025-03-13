@@ -213,7 +213,7 @@
 //**************************************************************** */
 import 'dart:io';
 import 'package:ampify_admin_bloc/common/app_colors.dart';
-import 'package:ampify_admin_bloc/logic/banner/add_banner/banner_bloc.dart';
+import 'package:ampify_admin_bloc/banner/add_banner/banner_bloc.dart';
 import 'package:ampify_admin_bloc/widgets/custom_button.dart';
 import 'package:ampify_admin_bloc/widgets/custom_textformfield.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';

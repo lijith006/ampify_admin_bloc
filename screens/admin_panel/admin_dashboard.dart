@@ -5,8 +5,8 @@ import 'package:ampify_admin_bloc/screens/brands/brands_list/brand_list_screen.d
 import 'package:ampify_admin_bloc/screens/categories/add_categories/bloc/add_category_screen.dart';
 import 'package:ampify_admin_bloc/screens/categories/categories_list/categories_list_screens/categories_list_screen.dart';
 import 'package:ampify_admin_bloc/screens/order_details_screen/order_detail_screen.dart';
-import 'package:ampify_admin_bloc/screens/products/add%20banner.dart';
-import 'package:ampify_admin_bloc/screens/products/edit_banner.dart';
+import 'package:ampify_admin_bloc/banner/add_banner/add_banner_screen/add%20banner.dart';
+import 'package:ampify_admin_bloc/banner/edit_banner/edit_banner_screen/edit_banner.dart';
 import 'package:ampify_admin_bloc/screens/productss/add_products/add-product_screen/add_product_screen.dart';
 import 'package:ampify_admin_bloc/screens/productss/products_list/product_list_screen/product_list_screen.dart';
 import 'package:ampify_admin_bloc/widgets/admin_dashboard/dashboard_grid.dart';
