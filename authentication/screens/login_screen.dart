@@ -172,9 +172,9 @@ class LoginScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: AppColors.backgroundColor,
+        backgroundColor: AppColors.backgroundColorLight,
       ),
-      backgroundColor: AppColors.backgroundColor,
+      backgroundColor: AppColors.backgroundColorLight,
       body: Container(
         child: SizedBox.expand(
           child: Padding(

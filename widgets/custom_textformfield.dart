@@ -158,6 +158,7 @@ class CustomTextFormField extends StatelessWidget {
   final TextInputType keyboardType;
   final List<TextInputFormatter>? inputFormatters;
   final String? Function(String?)? validator;
+  final void Function(String)? onChanged;
 
   const CustomTextFormField({
     super.key,
@@ -170,6 +171,7 @@ class CustomTextFormField extends StatelessWidget {
     this.maxLines = 1,
     this.keyboardType = TextInputType.text,
     this.inputFormatters,
+    this.onChanged,
   });
 
   @override
@@ -191,9 +193,8 @@ class CustomTextFormField extends StatelessWidget {
           contentPadding:
               const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
           filled: true,
-          // fillColor: Colors.grey[200],
-          // fillColor: Color(0XFFe1d5c9),
-          fillColor: Color.fromARGB(255, 233, 220, 208),
+
+          fillColor: Color.fromARGB(255, 240, 233, 227),
 
           // border: InputBorder.none,
 
@@ -226,6 +227,7 @@ class CustomTextFormField extends StatelessWidget {
               : null,
         ),
         validator: validator,
+        onChanged: onChanged,
       ),
     );
   }

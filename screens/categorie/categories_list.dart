@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:ampify_admin_bloc/common/app_colors.dart';
 import 'package:ampify_admin_bloc/models/category_model.dart';
-import 'package:ampify_admin_bloc/screens/categories/categories_edit.dart';
+import 'package:ampify_admin_bloc/screens/categorie/categories_edit.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 

@@ -1,9 +1,9 @@
-class Brand {
+class BrandModel {
   final String id;
   final String name;
   final String image;
 
-  Brand({
+  BrandModel({
     required this.id,
     required this.name,
     required this.image,
@@ -19,8 +19,8 @@ class Brand {
   }
 
   // Create  Brand object from  Firestore doc---map to  obj---
-  factory Brand.fromMap(Map<String, dynamic> map) {
-    return Brand(
+  factory BrandModel.fromMap(Map<String, dynamic> map) {
+    return BrandModel(
       id: map['id'],
       name: map['name'],
       image: map['image'],

@@ -1,11 +1,11 @@
 import 'package:ampify_admin_bloc/authentication/screens/login_screen.dart';
 import 'package:ampify_admin_bloc/common/app_colors.dart';
-import 'package:ampify_admin_bloc/screens/brand/brand_list.dart';
-import 'package:ampify_admin_bloc/screens/categories/categories_list.dart';
+import 'package:ampify_admin_bloc/screens/brands/add_brands/bloc/screen/brand_add_screen.dart';
+import 'package:ampify_admin_bloc/screens/brands/brands_list/brand_list_screen.dart';
+import 'package:ampify_admin_bloc/screens/categorie/categories_list.dart';
+import 'package:ampify_admin_bloc/screens/categories/add_categories/bloc/add_category_screen.dart';
 import 'package:ampify_admin_bloc/screens/order_details_screen/order_detail_screen.dart';
 import 'package:ampify_admin_bloc/screens/products/add%20banner.dart';
-import 'package:ampify_admin_bloc/screens/products/add_brand.dart';
-import 'package:ampify_admin_bloc/screens/products/add_category.dart';
 import 'package:ampify_admin_bloc/screens/products/add_product.dart';
 import 'package:ampify_admin_bloc/screens/products/edit_banner.dart';
 import 'package:ampify_admin_bloc/screens/products/product_list.dart';
@@ -117,8 +117,8 @@ class AdminDashboard extends StatelessWidget {
         'title': 'Add Category',
         'icon': Icons.category,
         'onTap': () {
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => AddCategory()));
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => AddCategoryScreen()));
         }
       },
       {
@@ -179,21 +179,12 @@ class AdminDashboard extends StatelessWidget {
               context,
               MaterialPageRoute(
                   builder: (context) => const AdminOrderScreen()));
-
-          // Navigator.push(
-          //     context,
-          //     MaterialPageRoute(
-          //       builder: (context) => BlocProvider.value(
-          //         value: context.read<OrderBloc>(),
-          //         child: const AdminOrderScreen(),
-          //       ),
-          //     ));
         }
       },
     ];
 
     return Scaffold(
-      backgroundColor: AppColors.backgroundColor,
+      backgroundColor: AppColors.backgroundColorLight,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         title: Text(
