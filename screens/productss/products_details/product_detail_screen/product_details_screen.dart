@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
+import 'package:ampify_admin_bloc/common/app_colors.dart';
 import 'package:ampify_admin_bloc/screens/productss/products_details/bloc/product_details_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -18,7 +19,7 @@ class ProductDetailPage extends StatelessWidget {
       create: (context) =>
           ProductDetailBloc()..add(FetchProductDetails(productId)),
       child: Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: AppColors.light,
         appBar: AppBar(
           title: const Text("Product Details"),
           backgroundColor: Colors.transparent,
@@ -72,7 +73,8 @@ class ProductDetailPage extends StatelessWidget {
             arcType: ArcType.CONVEY,
             child: Container(
               width: double.infinity,
-              color: const Color.fromARGB(255, 24, 63, 5),
+              // color: const Color.fromARGB(255, 24, 63, 5),
+              color: AppColors.clr,
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Column(
@@ -87,7 +89,8 @@ class ProductDetailPage extends StatelessWidget {
                             style: const TextStyle(
                               fontSize: 30,
                               fontWeight: FontWeight.w900,
-                              color: Colors.white,
+                              color: AppColors.outLineColor,
+                              // color: Colors.white,
                             ),
                           ),
                           Text(
@@ -95,7 +98,9 @@ class ProductDetailPage extends StatelessWidget {
                             style: const TextStyle(
                               fontSize: 23,
                               fontWeight: FontWeight.w500,
-                              color: Colors.white,
+                              color: AppColors.outLineColor,
+
+                              // color: Colors.white,
                             ),
                           ),
                         ],

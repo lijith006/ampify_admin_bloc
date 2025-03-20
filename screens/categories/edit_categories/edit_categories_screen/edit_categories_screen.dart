@@ -69,7 +69,7 @@ class _EditCategoryViewState extends State<EditCategoryView> {
         }
       },
       child: Scaffold(
-        backgroundColor: AppColors.backgroundColor,
+        backgroundColor: AppColors.backgroundColorLight,
         appBar: AppBar(title: const Text('Edit Category')),
         body: Padding(
           padding: const EdgeInsets.all(16.0),

@@ -91,27 +91,6 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
     }
   }
 
-  // Future<void> _onUpdateOrderStatus(
-  //     UpdateOrderStatus event, Emitter<OrderState> emit) async {
-  //   try {
-  //     // Normalize the status before updating
-  //     String normalizedStatus = OrderModel.normalizeStatus(event.newStatus);
-
-  //     await _firestore
-  //         .collection('orders')
-  //         .doc(event.orderId)
-  //         .update({'status': normalizedStatus});
-
-  //     emit(OrderStatusUpdated(
-  //         orderId: event.orderId, newStatus: normalizedStatus));
-
-  //     // Fetch updated orders to reflect changes
-  //     add(FetchOrders());
-  //   } catch (e) {
-  //     emit(OrderFailed(error: e.toString()));
-  //   }
-  // }
-
   Future<void> _onUpdateOrderStatus(
       UpdateOrderStatus event, Emitter<OrderState> emit) async {
     try {

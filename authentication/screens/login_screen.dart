@@ -184,9 +184,7 @@ class LoginScreen extends StatelessWidget {
               key: _formKey,
               child: SingleChildScrollView(
                 child: Column(
-                  // crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    //    const SizedBox(height: 10),
                     Text(
                       'Admin-Login',
                       style: CustomTextStyles.screenHeading(),
@@ -237,23 +235,6 @@ class LoginScreen extends StatelessWidget {
                         );
                       },
                     ),
-                    // Align(
-                    //   alignment: Alignment.centerRight,
-                    //   child: TextButton(
-                    //     onPressed: () {
-                    //       Navigator.push(
-                    //         context,
-                    //         MaterialPageRoute(
-                    //           builder: (context) => const ForgotPassword(),
-                    //         ),
-                    //       );
-                    //     },
-                    //     child: const Text(
-                    //       'Forgot your password?',
-                    //       style: TextStyle(color: Color(0xFF31473A)),
-                    //     ),
-                    //   ),
-                    // ),
                     const SizedBox(height: 40),
                     BlocConsumer<AuthBloc, AuthState>(
                       listener: (context, state) {

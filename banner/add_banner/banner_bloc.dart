@@ -51,11 +51,11 @@ class BannerBloc extends Bloc<BannerEvent, BannerState> {
 
       emit(BannerLoading());
 
-      // Check if banner name already exists in Firestore
+      // Check if banner name already exists
       try {
         emit(BannerLoading());
 
-        // check firestore if the bannerName already exists
+        // check - firestore if the bannerName already exists
         var querySnapshot = await firestore
             .collection('banners')
             .where('bannerName', isEqualTo: event.bannerName)
@@ -77,7 +77,8 @@ class BannerBloc extends Bloc<BannerEvent, BannerState> {
 
         selectedImages.clear();
         emit(BannerUploaded());
-        emit(BannerImagesPicked(List.from(selectedImages))); // Reset -- UI
+        //UI --reset
+        emit(BannerImagesPicked(List.from(selectedImages)));
       } catch (e) {
         emit(BannerError('Failed to upload banner'));
       }

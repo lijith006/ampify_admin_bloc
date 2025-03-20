@@ -37,7 +37,7 @@ class _EditBrandViewState extends State<EditBrandView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.backgroundColor,
+      backgroundColor: AppColors.backgroundColorLight,
       appBar: AppBar(title: const Text('Edit Brand')),
       body: BlocListener<EditBrandBloc, EditBrandState>(
         listener: (context, state) {

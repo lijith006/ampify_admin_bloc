@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:ampify_admin_bloc/screens/productss/products_details/product_detail_screen/product_details_screen.dart';
 import 'package:ampify_admin_bloc/screens/productss/products_list/bloc/product_list_bloc.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +14,7 @@ class ProductListPage extends StatelessWidget {
     return BlocProvider(
       create: (context) => ProductListBloc()..add(FetchProducts()),
       child: Scaffold(
-        backgroundColor: AppColors.backgroundColor,
+        backgroundColor: AppColors.backgroundColorLight,
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           elevation: 0,
@@ -47,15 +46,14 @@ class ProductListPage extends StatelessWidget {
                             ? ClipRRect(
                                 borderRadius: BorderRadius.circular(10),
                                 child: Image.memory(
-                                  // Decode first Base64 image if available
                                   const Base64Decoder()
                                       .convert(product['images'][0]),
                                   width: 50,
                                   height: 50,
-                                  fit: BoxFit.cover,
+                                  fit: BoxFit.contain,
                                 ),
                               )
-                            : const Icon(Icons.image), //  icon if no image
+                            : const Icon(Icons.image),
                         title: Text(product['name'] ?? "Unnamed Product"),
                         subtitle: Text("\₹${product['price'] ?? '0.00'}"),
                         onTap: () {
@@ -71,7 +69,7 @@ class ProductListPage extends StatelessWidget {
                           children: [
                             IconButton(
                               icon: const Icon(Icons.edit,
-                                  color: Color.fromARGB(255, 17, 75, 122)),
+                                  color: AppColors.outLineColor),
                               onPressed: () {
                                 Navigator.push(
                                   context,

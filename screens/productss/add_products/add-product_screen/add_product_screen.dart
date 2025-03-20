@@ -3,6 +3,7 @@ import 'package:ampify_admin_bloc/common/custom_text_styles.dart';
 import 'package:ampify_admin_bloc/screens/productss/add_products/bloc/add_product_bloc.dart';
 import 'package:ampify_admin_bloc/screens/productss/add_products/bloc/add_product_event.dart';
 import 'package:ampify_admin_bloc/widgets/custom_button.dart';
+import 'package:ampify_admin_bloc/widgets/custom_drop_down.dart';
 import 'package:ampify_admin_bloc/widgets/custom_textformfield.dart';
 import 'package:ampify_admin_bloc/widgets/validators_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -43,7 +44,7 @@ class _AddProductState extends State<AddProduct> {
     return BlocProvider(
       create: (context) => AddProductBloc(),
       child: Scaffold(
-        backgroundColor: AppColors.backgroundColor,
+        backgroundColor: AppColors.backgroundColorLight,
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           elevation: 0,
@@ -113,7 +114,7 @@ class _AddProductState extends State<AddProduct> {
                                     .add(PickProductImagesEvent()),
                                 child: Container(
                                   decoration: BoxDecoration(
-                                    color: const Color(0XFFe1d5c9),
+                                    color: AppColors.backgroundColorLight,
                                     border: Border.all(
                                         color: const Color.fromARGB(
                                             255, 138, 136, 136)),
@@ -155,7 +156,7 @@ class _AddProductState extends State<AddProduct> {
                                       ),
                                       child: const Icon(
                                         Icons.close,
-                                        color: Colors.white,
+                                        color: AppColors.light,
                                         size: 20,
                                       ),
                                     ),
@@ -199,82 +200,35 @@ class _AddProductState extends State<AddProduct> {
                         ),
                         const SizedBox(height: 16),
 
-                        // Category Dropdown
                         Row(
                           children: [
                             Expanded(
-                              child: StreamBuilder<QuerySnapshot>(
+                              child: CustomDropdown(
                                 stream: _fetchCategories(),
-                                builder: (context, snapshot) {
-                                  if (!snapshot.hasData) {
-                                    return const CircularProgressIndicator();
-                                  }
-                                  return DropdownButtonFormField<String>(
-                                    value: selectedCategoryId,
-                                    items: snapshot.data!.docs.map((doc) {
-                                      return DropdownMenuItem(
-                                        value: doc.id,
-                                        child: Text(doc['name']),
-                                      );
-                                    }).toList(),
-                                    onChanged: (value) {
-                                      selectedCategoryId = value!;
-                                    },
-                                    decoration: InputDecoration(
-                                      labelText: 'Select Category',
-                                      border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(20),
-                                      ),
-                                      focusedBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(20),
-                                        borderSide: const BorderSide(
-                                            color: AppColors.outLineColor),
-                                      ),
-                                    ),
-                                  );
+                                label: 'Select Category',
+                                selectedValue: selectedCategoryId,
+                                onChanged: (value) {
+                                  setState(() {
+                                    selectedCategoryId = value;
+                                  });
                                 },
                               ),
                             ),
-
                             const SizedBox(width: 5),
-
-                            // Brand Dropdown
                             Expanded(
-                              child: StreamBuilder<QuerySnapshot>(
+                              child: CustomDropdown(
                                 stream: _fetchBrands(),
-                                builder: (context, snapshot) {
-                                  if (!snapshot.hasData) {
-                                    return const CircularProgressIndicator();
-                                  }
-                                  return DropdownButtonFormField<String>(
-                                    value: selectedBrandId,
-                                    items: snapshot.data!.docs.map((doc) {
-                                      return DropdownMenuItem(
-                                        value: doc.id,
-                                        child: Text(doc['name']),
-                                      );
-                                    }).toList(),
-                                    onChanged: (value) {
-                                      selectedBrandId = value!;
-                                    },
-                                    decoration: InputDecoration(
-                                      labelText: 'Select Brand',
-                                      border: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(20)),
-                                      focusedBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(20),
-                                        borderSide: const BorderSide(
-                                            color: AppColors.outLineColor),
-                                      ),
-                                    ),
-                                  );
+                                label: 'Select Brand',
+                                selectedValue: selectedBrandId,
+                                onChanged: (value) {
+                                  setState(() {
+                                    selectedBrandId = value;
+                                  });
                                 },
                               ),
                             ),
                           ],
                         ),
-
                         const SizedBox(height: 24),
 
                         // Submit Button
@@ -298,7 +252,6 @@ class _AddProductState extends State<AddProduct> {
                             }
                           },
                         ),
-                        //  const SizedBox(height: 10),
                       ],
                     ),
                   ),
