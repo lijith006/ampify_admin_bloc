@@ -1,92 +1,14 @@
 // class OrderModel {
 //   final String id;
 //   final String customerName;
-//   final String productName;
+//   final String orderId;
 //   final String status;
 //   final double totalAmount;
 
 //   OrderModel(
 //       {required this.id,
 //       required this.customerName,
-//       required this.productName,
-//       required this.status,
-//       required this.totalAmount});
-
-//   factory OrderModel.fromMap(Map<String, dynamic> map) {
-//     return OrderModel(
-//       id: map['id'],
-//       customerName: map['customerName'],
-//       productName: map['productName'],
-//       status: map['status'],
-//       totalAmount: (map['totalAmount'] as num).toDouble(),
-//     );
-//   }
-// }
-//************************************ */
-
-// class OrderModel {
-//   final String id;
-//   final String customerName;
-//   final String productName;
-//   final String status;
-//   final double totalAmount;
-
-//   OrderModel(
-//       {required this.id,
-//       required this.customerName,
-//       required this.productName,
-//       required this.status,
-//       required this.totalAmount});
-
-//   factory OrderModel.fromMap(Map<String, dynamic> map) {
-//     return OrderModel(
-//       id: map['id'] ?? '',
-//       customerName: map['customerName'] ?? 'Unknown Customer',
-//       productName: map['productName'] ?? 'Unknown Product',
-//       status: map['status'] ?? 'Pending',
-//       totalAmount: (map['totalAmount'] as num?)?.toDouble() ?? 0.0,
-//     );
-//   }
-// }
-// class OrderModel {
-//   final String id;
-//   final String customerName;
-//   final String productName;
-//   final String status;
-//   final double totalAmount;
-
-//   OrderModel(
-//       {required this.id,
-//       required this.customerName,
-//       required this.productName,
-//       required this.status,
-//       required this.totalAmount});
-
-//   factory OrderModel.fromMap(String docId, Map<String, dynamic> map) {
-//     return OrderModel(
-//       id: docId, // Use the document ID from Firestore
-//       customerName: map['customerName'] ?? 'Unknown Customer',
-//       productName: map['productName'] ?? 'Unknown Product',
-//       status: (map['status'] as String?)?.toLowerCase() ??
-//           'pending', // Ensure lowercase
-//       totalAmount: (map['totalAmount'] as num?)?.toDouble() ?? 0.0,
-//     );
-//   }
-// }
-//*******************************************************************************************
-// */
-
-// class OrderModel {
-//   final String id;
-//   final String customerName;
-//   final String productName;
-//   final String status;
-//   final double totalAmount;
-
-//   OrderModel(
-//       {required this.id,
-//       required this.customerName,
-//       required this.productName,
+//       required this.orderId,
 //       required this.status,
 //       required this.totalAmount});
 
@@ -105,27 +27,35 @@
 
 //     return OrderModel(
 //       id: docId,
-//       customerName: map['users'] ?? 'Unknown Customer',
-//       productName: map['title'] ?? 'Unknown Product',
+//       customerName: map['customerName'] ?? 'Unknown Customer',
+//       orderId: docId,
+//       // orderId: map['title'] ?? 'Unknown Product',
 //       status: normalizedStatus,
 //       totalAmount: (map['totalAmount'] as num?)?.toDouble() ?? 0.0,
 //     );
 //   }
 // }
-//9999999999999999999999999999999999999999
+//******************************************************** */
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class OrderModel {
   final String id;
   final String customerName;
   final String orderId;
   final String status;
   final double totalAmount;
+  final Timestamp createdAt;
+  final String address;
 
-  OrderModel(
-      {required this.id,
-      required this.customerName,
-      required this.orderId,
-      required this.status,
-      required this.totalAmount});
+  OrderModel({
+    required this.id,
+    required this.customerName,
+    required this.orderId,
+    required this.status,
+    required this.totalAmount,
+    required this.createdAt,
+    required this.address,
+  });
 
   // Static method to normalize status
   static String normalizeStatus(String status) {
@@ -144,9 +74,10 @@ class OrderModel {
       id: docId,
       customerName: map['customerName'] ?? 'Unknown Customer',
       orderId: docId,
-      // orderId: map['title'] ?? 'Unknown Product',
       status: normalizedStatus,
       totalAmount: (map['totalAmount'] as num?)?.toDouble() ?? 0.0,
+      createdAt: map['createdAt'] ?? Timestamp.now(),
+      address: map['address'] ?? 'Unknown Address',
     );
   }
 }
