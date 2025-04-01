@@ -23,7 +23,8 @@
 
 //   OrderFailed({required this.error});
 // }
-//*********************************************** */
+//-------------------------------MARCH 278
+
 import 'package:ampify_admin_bloc/screens/order_details_screen/order_model/order_model.dart';
 
 abstract class OrderState {}
@@ -34,8 +35,9 @@ class OrderLoading extends OrderState {}
 
 class OrdersLoaded extends OrderState {
   final List<OrderModel> orders;
+  final Map<String, double> revenueData;
 
-  OrdersLoaded({required this.orders});
+  OrdersLoaded({required this.orders, required this.revenueData});
 }
 
 class OrderStatusUpdated extends OrderState {

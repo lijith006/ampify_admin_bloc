@@ -1,0 +1,30 @@
+{
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "ampify-with-bloc",
+          "appId": "1:525220056646:android:f3de8f9313002182968447",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "ampify-with-bloc",
+          "configurations": {
+            "android": "1:525220056646:android:f3de8f9313002182968447",
+            "web": "1:525220056646:web:74bf7a4414abbaff968447"
+          }
+        }
+      }
+    }
+  },
+  "hosting": {
+    "public": "build/web",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ]
+  }
+}

@@ -1,10 +1,11 @@
 import 'dart:convert';
-import 'package:ampify_admin_bloc/screens/productss/products_details/product_detail_screen/product_details_screen.dart';
-import 'package:ampify_admin_bloc/screens/productss/products_list/bloc/product_list_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:ampify_admin_bloc/common/app_colors.dart';
-import 'package:ampify_admin_bloc/screens/productss/edit_products/bloc/edit_product_screen/edit_product_screen.dart';
+
+import '../../../../common/app_colors.dart';
+import '../../edit_products/bloc/edit_product_screen/edit_product_screen.dart';
+import '../../products_details/product_detail_screen/product_details_screen.dart';
+import '../bloc/product_list_bloc.dart';
 
 class ProductListPage extends StatelessWidget {
   const ProductListPage({super.key});
@@ -40,6 +41,8 @@ class ProductListPage extends StatelessWidget {
                     final product = products[index];
                     final productId = products[index].id;
                     return Card(
+                      color: AppColors.backgroundColorLight,
+                      elevation: 0,
                       child: ListTile(
                         leading: product['images'] != null &&
                                 product['images'].isNotEmpty
@@ -68,7 +71,7 @@ class ProductListPage extends StatelessWidget {
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             IconButton(
-                              icon: const Icon(Icons.edit,
+                              icon: const Icon(Icons.mode_edit_outline_outlined,
                                   color: AppColors.outLineColor),
                               onPressed: () {
                                 Navigator.push(
@@ -81,7 +84,8 @@ class ProductListPage extends StatelessWidget {
                               },
                             ),
                             IconButton(
-                              icon: const Icon(Icons.delete, color: Colors.red),
+                              icon: const Icon(Icons.delete_forever_outlined,
+                                  color: Colors.red),
                               onPressed: () {
                                 _deleteProduct(context, product.id);
                               },

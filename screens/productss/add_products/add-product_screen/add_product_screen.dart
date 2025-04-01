@@ -1,15 +1,16 @@
-import 'package:ampify_admin_bloc/common/app_colors.dart';
-import 'package:ampify_admin_bloc/common/custom_text_styles.dart';
-import 'package:ampify_admin_bloc/screens/productss/add_products/bloc/add_product_bloc.dart';
-import 'package:ampify_admin_bloc/screens/productss/add_products/bloc/add_product_event.dart';
-import 'package:ampify_admin_bloc/widgets/custom_button.dart';
-import 'package:ampify_admin_bloc/widgets/custom_drop_down.dart';
-import 'package:ampify_admin_bloc/widgets/custom_textformfield.dart';
-import 'package:ampify_admin_bloc/widgets/validators_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../../../common/app_colors.dart';
+import '../../../../common/custom_text_styles.dart';
+import '../../../../widgets/custom_button.dart';
+import '../../../../widgets/custom_drop_down.dart';
+import '../../../../widgets/custom_textformfield.dart';
+import '../../../../widgets/validators_widget.dart';
+import '../bloc/add_product_bloc.dart';
+import '../bloc/add_product_event.dart';
 
 class AddProduct extends StatefulWidget {
   AddProduct({super.key});
@@ -132,7 +133,7 @@ class _AddProductState extends State<AddProduct> {
                                     border: Border.all(color: Colors.grey),
                                     borderRadius: BorderRadius.circular(8),
                                     image: DecorationImage(
-                                      image: FileImage(
+                                      image: MemoryImage(
                                           (state as ImagesPickedState)
                                               .images[index]),
                                       fit: BoxFit.cover,
@@ -193,7 +194,8 @@ class _AddProductState extends State<AddProduct> {
                         CustomTextFormField(
                           controller: priceController,
                           labelText: 'Product price',
-                          keyboardType: TextInputType.number,
+                          keyboardType: const TextInputType.numberWithOptions(
+                              decimal: true),
                           inputFormatters: [
                             FilteringTextInputFormatter.digitsOnly
                           ],

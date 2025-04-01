@@ -169,6 +169,8 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:timeline_tile/timeline_tile.dart';
+// import 'package:lottie/lottie.dart';
+// import 'package:timeline_tile/timeline_tile.dart';
 
 class OrderTimeline extends StatelessWidget {
   final String status;
@@ -179,7 +181,7 @@ class OrderTimeline extends StatelessWidget {
   final String description;
   final String animationPath;
   final VoidCallback? onTap;
-  final Widget? trailing; // Add this line
+  final Widget? trailing;
 
   const OrderTimeline({
     Key? key,
@@ -191,7 +193,7 @@ class OrderTimeline extends StatelessWidget {
     required this.description,
     required this.animationPath,
     this.onTap,
-    this.trailing, // Add this line
+    this.trailing,
   }) : super(key: key);
 
   @override
@@ -253,7 +255,7 @@ class OrderTimeline extends StatelessWidget {
                   ],
                 ),
               ),
-              if (trailing != null) trailing!, // Add this line
+              if (trailing != null) trailing!,
             ],
           ),
         ),

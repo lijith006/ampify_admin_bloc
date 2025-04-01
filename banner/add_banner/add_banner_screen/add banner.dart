@@ -76,7 +76,7 @@ class _AddBannerState extends State<AddBanner> {
                                       .add(PickImagesEvent()),
                                   child: Container(
                                     decoration: BoxDecoration(
-                                      color: const Color(0XFFe1d5c9),
+                                      color: AppColors.backgroundColorLight,
                                       border: Border.all(
                                           color: const Color.fromARGB(
                                               255, 138, 136, 136)),

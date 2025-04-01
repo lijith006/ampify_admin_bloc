@@ -1,11 +1,13 @@
-import 'package:ampify_admin_bloc/screens/productss/edit_products/bloc/edit_product_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:ampify_admin_bloc/common/app_colors.dart';
-import 'package:ampify_admin_bloc/widgets/custom_button.dart';
-import 'package:ampify_admin_bloc/common/custom_text_styles.dart';
-import 'package:ampify_admin_bloc/widgets/custom_textformfield.dart';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+
+import '../../../../../common/app_colors.dart';
+import '../../../../../common/custom_text_styles.dart';
+import '../../../../../widgets/custom_button.dart';
+import '../../../../../widgets/custom_textformfield.dart';
+import '../edit_product_bloc.dart';
 
 class EditProductPage extends StatelessWidget {
   final QueryDocumentSnapshot product;

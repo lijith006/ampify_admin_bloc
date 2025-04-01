@@ -15,6 +15,22 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
   }
 
   // Fetch all orders for Admin
+  // Future<void> _onFetchOrders(
+  //     FetchOrders event, Emitter<OrderState> emit) async {
+  //   emit(OrderLoading());
+  //   try {
+  //     QuerySnapshot snapshot = await _firestore.collection('orders').get();
+
+  //     List<OrderModel> orders = snapshot.docs.map((doc) {
+  //       // Pass both document ID and data to fromMap
+  //       return OrderModel.fromMap(doc.id, doc.data() as Map<String, dynamic>);
+  //     }).toList();
+
+  //     emit(OrdersLoaded(orders: orders));
+  //   } catch (e) {
+  //     emit(OrderFailed(error: e.toString()));
+  //   }
+  // }
   Future<void> _onFetchOrders(
       FetchOrders event, Emitter<OrderState> emit) async {
     emit(OrderLoading());
@@ -25,8 +41,17 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
         // Pass both document ID and data to fromMap
         return OrderModel.fromMap(doc.id, doc.data() as Map<String, dynamic>);
       }).toList();
-
-      emit(OrdersLoaded(orders: orders));
+      List<OrderModel> completedOrders =
+          orders.where((o) => o.status == "Delivered").toList();
+      // Group revenue by date
+      Map<String, double> revenueByDate = {};
+      for (var order in completedOrders) {
+        String date = order.orderDate
+            .toString()
+            .split(" ")[0]; // Extract date only (YYYY-MM-DD)
+        revenueByDate[date] = (revenueByDate[date] ?? 0) + order.totalAmount;
+      }
+      emit(OrdersLoaded(orders: orders, revenueData: revenueByDate));
     } catch (e) {
       emit(OrderFailed(error: e.toString()));
     }

@@ -17,10 +17,7 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      throw UnsupportedError(
-        'DefaultFirebaseOptions have not been configured for web - '
-        'you can reconfigure this by running the FlutterFire CLI again.',
-      );
+      return web;
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
@@ -57,6 +54,15 @@ class DefaultFirebaseOptions {
     appId: '1:525220056646:android:81e37d770b82da62968447',
     messagingSenderId: '525220056646',
     projectId: 'ampify-with-bloc',
+    storageBucket: 'ampify-with-bloc.firebasestorage.app',
+  );
+
+  static const FirebaseOptions web = FirebaseOptions(
+    apiKey: 'AIzaSyCHEN0eGV0yy0q-ydNcy_S2E1-xyf_K-SY',
+    appId: '1:525220056646:web:74bf7a4414abbaff968447',
+    messagingSenderId: '525220056646',
+    projectId: 'ampify-with-bloc',
+    authDomain: 'ampify-with-bloc.firebaseapp.com',
     storageBucket: 'ampify-with-bloc.firebasestorage.app',
   );
 

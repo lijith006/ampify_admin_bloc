@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:ampify_admin_bloc/screens/categories/edit_categories/bloc/edit_category_bloc.dart';
 import 'package:ampify_admin_bloc/screens/categories/edit_categories/bloc/edit_category_event.dart';
 import 'package:ampify_admin_bloc/screens/categories/edit_categories/bloc/edit_category_state.dart';
+import 'package:ampify_admin_bloc/widgets/custom_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ampify_admin_bloc/common/app_colors.dart';
@@ -70,7 +71,7 @@ class _EditCategoryViewState extends State<EditCategoryView> {
       },
       child: Scaffold(
         backgroundColor: AppColors.backgroundColorLight,
-        appBar: AppBar(title: const Text('Edit Category')),
+        appBar: const CustomAppBar(title: 'Edit Category'),
         body: Padding(
           padding: const EdgeInsets.all(16.0),
           child: BlocBuilder<EditCategoryBloc, EditCategoryState>(
@@ -88,7 +89,8 @@ class _EditCategoryViewState extends State<EditCategoryView> {
                             ? Container(
                                 height: 150,
                                 width: 150,
-                                color: Colors.grey[300],
+                                // color: Colors.grey[300],
+                                color: AppColors.backgroundColorLight,
                                 child: const Icon(Icons.add_a_photo),
                               )
                             : ClipRRect(
