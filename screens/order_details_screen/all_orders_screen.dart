@@ -154,6 +154,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ampify_admin_bloc/screens/order_details_screen/bloc/order_bloc.dart';
 import 'package:ampify_admin_bloc/screens/order_details_screen/bloc/order_event.dart';
 import 'package:ampify_admin_bloc/screens/order_details_screen/bloc/order_state.dart';
+import 'package:intl/intl.dart';
 
 class AdminOrderScreen extends StatefulWidget {
   final List<double> revenueData;
@@ -283,6 +284,16 @@ class _AdminOrderScreenState extends State<AdminOrderScreen> {
                                       ),
                                     ),
                                     const SizedBox(height: 8),
+                                    // Order Date
+                                    Text(
+                                      "Date: ${DateFormat('MMM-dd-yyyy – hh:mm a').format(order.createdAt.toDate())}",
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        color: Colors.grey[600],
+                                      ),
+                                    ),
+                                    const SizedBox(height: 8),
+
                                     // Total Amount
                                     Text(
                                       "Total: \₹${order.totalAmount.toStringAsFixed(2)}",
