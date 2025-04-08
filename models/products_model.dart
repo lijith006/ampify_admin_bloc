@@ -23,7 +23,8 @@ class Product {
     return {
       'id': id,
       'name': name,
-      'price': price,
+      //'price': price,
+      'price': price.toDouble(),
       'description': description,
       'categoryId': categoryId,
       'brandId': brandId,
@@ -36,7 +37,9 @@ class Product {
     return Product(
       id: map['id'],
       name: map['name'],
-      price: map['price'],
+      // price: map['price'],
+      price: (map['price'] as num).toDouble(),
+
       description: map['description'],
       categoryId: map['categoryId'],
       brandId: map['brandId'],
