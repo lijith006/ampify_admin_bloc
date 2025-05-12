@@ -1,4 +1,5 @@
 import 'package:ampify_admin_bloc/screens/chat_screen/chat_screen/admin_chat_screen.dart';
+import 'package:ampify_admin_bloc/screens/chat_screen/chat_widgets/chat_image_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -12,34 +13,24 @@ class AdminChatListScreen extends StatelessWidget {
       body: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance
             .collection('chats')
-            .orderBy('timestamp', descending: true)
+            .orderBy('lastTimestamp', descending: true) // ← corrected
             .snapshots(),
         builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
+          if (snapshot.connectionState == ConnectionState.waiting)
             return Center(child: CircularProgressIndicator());
-          }
 
-          if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+          if (!snapshot.hasData || snapshot.data!.docs.isEmpty)
             return Center(child: Text("No active chats."));
-          }
-// List of documents from Firestore
-          //  final chats = snapshot.data!.docs;
 
           return ListView.builder(
             itemCount: snapshot.data!.docs.length,
             itemBuilder: (context, index) {
-              // final chat = chats[index].data() as Map<String, dynamic>;
-              // Get the QueryDocumentSnapshot
               final doc = snapshot.data!.docs[index];
-              // Extract the map of fields
-              final data = doc.data() as Map<String, dynamic>;
-              // Use the document ID as chatId
-              final chatId = doc.id;
+              final data = doc.data()! as Map<String, dynamic>;
+
               return ListTile(
-                leading: CircleAvatar(
-                  backgroundImage: NetworkImage(data['senderBase64Image']),
-                ),
-                title: Text(data['senderName']),
+                leading: AvatarImage(imageData: data['userImage'] as String?),
+                title: Text(data['userName']), // ← use userName
                 subtitle: Text(
                   data['lastMessage'],
                   maxLines: 1,
@@ -48,16 +39,12 @@ class AdminChatListScreen extends StatelessWidget {
                 trailing: (data['isSeen'] ?? true)
                     ? null
                     : Icon(Icons.mark_chat_unread, color: Colors.red),
-                onTap: () {
-                  print('Admin opening chat room: $chatId');
-
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) => AdminChatScreen(chatId: chatId),
-                    ),
-                  );
-                },
+                onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => AdminChatScreen(chatId: doc.id),
+                  ),
+                ),
               );
             },
           );

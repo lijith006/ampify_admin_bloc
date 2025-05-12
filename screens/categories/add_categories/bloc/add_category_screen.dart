@@ -27,73 +27,80 @@ class AddCategoryScreen extends StatelessWidget {
         body: Padding(
           padding: const EdgeInsets.all(10),
           child: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                BlocBuilder<AddCategoryBloc, AddCategoryState>(
-                  builder: (context, state) {
-                    if (state is AddCategoryImagePicked) {
-                      return _buildImagePreview(
-                          context, File(state.image.path));
-                    }
-                    return _buildImagePlaceholder(context);
-                  },
-                ),
-                const SizedBox(height: 20),
-                CustomTextFormField(
-                  controller: categoryNameController,
-                  labelText: 'Category Name',
-                ),
-                const SizedBox(height: 20),
-                BlocConsumer<AddCategoryBloc, AddCategoryState>(
-                  listener: (context, state) {
-                    if (state is AddCategorySuccess) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                            content: Text('Category added successfully!')),
-                      );
-                      categoryNameController.clear();
-                    } else if (state is AddCategoryFailure) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text(state.error)),
-                      );
-                    }
-                  },
-                  builder: (context, state) {
-                    return CustomButton(
-                      label: state is AddCategoryLoading
-                          ? 'Adding...'
-                          : 'Add Category',
-                      onTap: () {
-                        if (categoryNameController.text.isEmpty) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                                backgroundColor: Colors.red,
-                                content: Text('Please enter a category name')),
-                          );
-                          return;
-                        }
-
-                        final addCategoryBloc = context.read<AddCategoryBloc>();
-
+            child: Center(
+              child: ConstrainedBox(
+                constraints: BoxConstraints(maxWidth: 500),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    BlocBuilder<AddCategoryBloc, AddCategoryState>(
+                      builder: (context, state) {
                         if (state is AddCategoryImagePicked) {
-                          addCategoryBloc.add(
-                            AddCategorySubmitted(
-                              categoryName: categoryNameController.text,
-                              image: state.image,
-                            ),
-                          );
-                        } else {
+                          return _buildImagePreview(
+                              context, File(state.image.path));
+                        }
+                        return _buildImagePlaceholder(context);
+                      },
+                    ),
+                    const SizedBox(height: 20),
+                    CustomTextFormField(
+                      controller: categoryNameController,
+                      labelText: 'Category Name',
+                    ),
+                    const SizedBox(height: 20),
+                    BlocConsumer<AddCategoryBloc, AddCategoryState>(
+                      listener: (context, state) {
+                        if (state is AddCategorySuccess) {
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
-                                content: Text('Please select an image')),
+                                content: Text('Category added successfully!')),
+                          );
+                          categoryNameController.clear();
+                        } else if (state is AddCategoryFailure) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text(state.error)),
                           );
                         }
                       },
-                    );
-                  },
+                      builder: (context, state) {
+                        return CustomButton(
+                          label: state is AddCategoryLoading
+                              ? 'Adding...'
+                              : 'Add Category',
+                          onTap: () {
+                            if (categoryNameController.text.isEmpty) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                    backgroundColor: Colors.red,
+                                    content:
+                                        Text('Please enter a category name')),
+                              );
+                              return;
+                            }
+
+                            final addCategoryBloc =
+                                context.read<AddCategoryBloc>();
+
+                            if (state is AddCategoryImagePicked) {
+                              addCategoryBloc.add(
+                                AddCategorySubmitted(
+                                  categoryName: categoryNameController.text,
+                                  image: state.image,
+                                ),
+                              );
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                    content: Text('Please select an image')),
+                              );
+                            }
+                          },
+                        );
+                      },
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
           ),
         ),
